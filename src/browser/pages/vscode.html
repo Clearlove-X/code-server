@@ -27,6 +27,14 @@
     <link rel="icon" href="{{CS_STATIC_BASE}}/src/browser/media/favicon.svg" />
     <link rel="alternate icon" href="{{CS_STATIC_BASE}}/src/browser/media/favicon.ico" />
     <link rel="manifest" href="{{CS_STATIC_BASE}}/src/browser/media/manifest.json" crossorigin="use-credentials" />
+    
+    		<!-- 引入载入gif资源 -->
+		<link rel="apple-touch-icon" href="{{CS_STATIC_BASE}}/src/browser/media/loading4.gif" />
+		<link rel="apple-touch-icon" href="{{CS_STATIC_BASE}}/src/browser/media/csg2.png" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+
+
+    
     <!-- PROD_ONLY
     <link data-name="vs/workbench/workbench.web.api" rel="stylesheet" href="{{CS_STATIC_BASE}}/lib/vscode/out/vs/workbench/workbench.web.api.css">
     END_PROD_ONLY -->
@@ -37,12 +45,31 @@
     <meta id="coder-options" data-settings="{{OPTIONS}}" />
   </head>
 
-  <body aria-label=""></body>
+  <body aria-label="" style="background-color: #f9f9f9">
+		<!-- 引入载入loading img元素 -->
+		<img id="loading" src="{{CS_STATIC_BASE}}/src/browser/media/loading4.gif" alt="" style="position: absolute;top: 36%;left: 36%;">
+		<p id="loading-text" style="position: absolute;color: #0062ac;top: 13.5%;left: 4.8%;font-size:x-large;font-style: italic"><b>Coding &nbsp;  无 处 不 在</b></p>
+		<img id="loading-logo" src="{{CS_STATIC_BASE}}/src/browser/media/csg2.png" alt="" style="position: absolute;top: 5%;left: 5%;width: 19%;">
+	</body>
+
 
   <!-- Startup (do not modify order of script tags!) -->
   <script data-cfasync="false" src="{{CS_STATIC_BASE}}/dist/pages/vscode.js"></script>
   <script data-cfasync="false" src="{{CS_STATIC_BASE}}/dist/register.js"></script>
   <script data-cfasync="false" src="{{CS_STATIC_BASE}}/lib/vscode/out/vs/loader.js"></script>
+  <script>
+    document.onreadystatechange = function () {
+			if (document.readyState === 'complete') {
+				console.log("ok");
+				var loadingimg = document.getElementById("loading")
+				loadingimg.parentElement.removeChild(loadingimg)
+				var loadinglog = document.getElementById("loading-logo")
+				loadinglog.parentElement.removeChild(loadinglog)
+				var loadingtext = document.getElementById("loading-text")
+				loadingtext.parentElement.removeChild(loadingtext)
+			}
+		}
+  </script>
   <script>
     globalThis.MonacoPerformanceMarks.push("willLoadWorkbenchMain", Date.now())
   </script>

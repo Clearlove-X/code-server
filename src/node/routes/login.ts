@@ -88,7 +88,7 @@ router.post("/", async (req, res) => {
       }),
     )
 
-    throw new Error("Incorrect password")
+    throw new Error("Invalid password")
   } catch (error) {
     res.send(await getRoot(req, error))
   }

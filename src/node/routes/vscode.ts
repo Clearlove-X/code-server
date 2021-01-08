@@ -7,7 +7,7 @@ import { authenticated, ensureAuthenticated, redirect, replaceTemplates } from "
 import { getMediaMime, pathToFsPath } from "../util"
 import { VscodeProvider } from "../vscode"
 import { Router as WsRouter } from "../wsRouter"
-
+import axios from "axios"
 export const router = Router()
 
 const vscode = new VscodeProvider()
@@ -19,6 +19,19 @@ router.get("/", async (req, res) => {
       to: req.baseUrl && req.baseUrl !== "/" ? req.baseUrl : undefined,
     })
   }
+
+  let url3 = req.args.serverLocation+"/cloud-ide/v1/login"
+  var data = {
+    "type" :"fresh",
+    "host" :req.headers.host,
+    "referer" :req.headers.referer,
+    "origin" :req.headers.origin,
+  }
+  axios.post(url3,data).then((res: any) => {
+    
+  }).catch(error => {
+    console.log("error :",error)
+  })
 
   const [content, options] = await Promise.all([
     await fs.readFile(path.join(rootPath, "src/browser/pages/vscode.html"), "utf8"),

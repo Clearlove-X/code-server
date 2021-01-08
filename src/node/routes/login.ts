@@ -6,7 +6,7 @@ import safeCompare from "safe-compare"
 import { rootPath } from "../constants"
 import { authenticated, getCookieDomain, redirect, replaceTemplates } from "../http"
 import { hash, humanPath } from "../util"
-
+import axios from "axios"
 enum Cookie {
   Key = "key",
 }
@@ -73,6 +73,21 @@ router.post("/", async (req, res) => {
         path: req.body.base || "/",
         sameSite: "lax",
       })
+
+        //加回调逻辑，将本次登录成功的信息传给管理侧
+        let url3 = req.args.serverLocation+"/cloud-ide/v1/login"
+        var data = {
+          "type" :"login",
+          "host" :req.headers.host,
+          "referer" :req.headers.referer,
+          "origin" :req.headers.origin,
+        }
+        axios.post(url3,data).then((res: any) => {
+      
+        }).catch(error => {
+          console.log("error :",error)
+        })
+     
 
       const to = (typeof req.query.to === "string" && req.query.to) || "/"
       return redirect(req, res, to, { to: undefined })

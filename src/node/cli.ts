@@ -29,6 +29,8 @@ export interface Args extends VsArgs {
   config?: string
   auth?: AuthType
   password?: string
+  //管理侧后端地址，从ide容器的环境变量中获取
+  serverLocation?: string
   cert?: OptionalString
   "cert-host"?: string
   "cert-key"?: string
@@ -103,6 +105,10 @@ const options: Options<Required<Args>> = {
   password: {
     type: "string",
     description: "The password for password authentication (can only be passed in via $PASSWORD or the config file).",
+  },
+  serverLocation: {
+    type: "string",
+    description: "The address for callback (can only be passed in via $SERVERLOCATION).",
   },
   cert: {
     type: OptionalString,
@@ -451,6 +457,10 @@ export async function setDefaults(cliArgs: Args, configArgs?: ConfigArgs): Promi
   const usingEnvPassword = !!process.env.PASSWORD
   if (process.env.PASSWORD) {
     args.password = process.env.PASSWORD
+  }
+  //从环境变量中取管理侧地址
+   if (process.env.SERVERLOCATION) {
+    args.serverLocation = process.env.SERVERLOCATION
   }
 
   // Ensure it's not readable by child processes.
